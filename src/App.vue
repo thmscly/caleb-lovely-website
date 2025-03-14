@@ -37,6 +37,10 @@ footer {
   background-color: transparent;
 }
 
+:global(input::placeholder) {
+  color: white;
+}
+
 @media screen and (min-width: 768px) {
   header {
     background-size: 20%;

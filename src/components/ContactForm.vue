@@ -58,6 +58,7 @@
           name="date"
           label="Request Date"
           validation="required"
+          suffix-icon-class="date-icon"
         />
 
         <FormKit
@@ -133,14 +134,39 @@ export default {
     }
   },
   methods: {
-    handleSubmit(formData) {
-      console.log('Form submitted:', formData)
+    async handleSubmit(formData) {
+      this.isSubmitting = true
+      try {
+        const response = await fetch('https://formspree.io/f/mqapakbg', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+
+        if (response.ok) {
+          this.submitStatus = 'success'
+          // Optionally reset form or show success message
+        } else {
+          this.submitStatus = 'error'
+        }
+      } catch (error) {
+        console.error('Submission error:', error)
+        this.submitStatus = 'error'
+      } finally {
+        this.isSubmitting = false
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+.date-icon {
+  color: white;
+}
+
 .field-container {
   border-radius: 0.5em;
   background-color: #1c1c1ca6;
@@ -164,6 +190,7 @@ export default {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  color: white;
 }
 
 :deep(.formkit-label) {
