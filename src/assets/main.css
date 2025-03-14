@@ -1,0 +1,82 @@
+@import './base.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Long+Cang&family=Permanent+Marker&display=swap');
+
+#app {
+  max-width: 100vw;
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+p {
+  padding: 1em;
+  text-indent: 1em;
+}
+
+.main-white {
+  color: rgb(244, 247, 246);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Permanent Marker', cursive;
+  color: rgb(244, 247, 246);
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+button {
+  border-radius: 5%;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: rgba(1, 154, 24, 0.74);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  text-decoration: italic;
+}
+
+a {
+  transition: all ease-in-out 0.3s;
+  color: white;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(38, 100%, 37.1%, 0.2);
+    border-radius: 10px 2px;
+    transform: scale(1.1);
+    filter: grayscale(0.5);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+  }
+}
