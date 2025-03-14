@@ -39,7 +39,7 @@
         />
 
         <FormKit
-          v-if="value.services?.includes('Other')"
+          v-if="(value?.services as any)?.includes('Other')"
           type="textarea"
           name="otherServiceDetails"
           label="Please specify other services"
@@ -123,7 +123,7 @@
   </FormKit>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'ContactForm',
   data() {
@@ -134,8 +134,7 @@ export default {
     }
   },
   methods: {
-    async handleSubmit(formData) {
-      this.isSubmitting = true
+    async handleSubmit(formData: any) {
       try {
         const response = await fetch('https://formspree.io/f/mqapakbg', {
           method: 'POST',
@@ -144,18 +143,8 @@ export default {
           },
           body: JSON.stringify(formData)
         })
-
-        if (response.ok) {
-          this.submitStatus = 'success'
-          // Optionally reset form or show success message
-        } else {
-          this.submitStatus = 'error'
-        }
       } catch (error) {
         console.error('Submission error:', error)
-        this.submitStatus = 'error'
-      } finally {
-        this.isSubmitting = false
       }
     }
   }
