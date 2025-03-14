@@ -24,12 +24,14 @@ defineProps<{
 }>()
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  const date = new Date(dateString);
+  const utcDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+  return utcDate.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric'
-  })
+  });
 }
 </script>
 
