@@ -1,57 +1,63 @@
 <template>
-  <FormKit type="form" @submit="handleSubmit" #default="{ value }">
-    <div class="form-type-selector">
-      <FormKit type="radio" :options="formTypes" v-model="formType" :value="formType" name="formType" />
-    </div>
-
-    <div class="field-container">
-      <h2>{{ formType }}</h2>
-      <div v-if="submitStatus.message" :class="['status-message', submitStatus.type]">
-        {{ submitStatus.message }}
+  <div v-if="isSubmitted" class="confirmation-section">
+    <h2>Thank you for your submission!</h2>
+    <p>Your message has been successfully sent. We will get back to you soon.</p>
+  </div>
+  <div v-else>
+    <FormKit type="form" @submit="handleSubmit" #default="{ value }">
+      <div class="form-type-selector">
+        <FormKit type="radio" :options="formTypes" v-model="formType" :value="formType" name="formType" />
       </div>
 
-      <!-- Common Fields -->
-      <FormKit type="text" name="name" label="Name" validation="required" />
+      <div class="field-container">
+        <h2>{{ formType }}</h2>
+        <div v-if="submitStatus.message" :class="['status-message', submitStatus.type]">
+          {{ submitStatus.message }}
+        </div>
 
-      <FormKit type="email" name="email" label="Email" validation="required|email" />
+        <!-- Common Fields -->
+        <FormKit type="text" name="name" label="Name" validation="required" />
 
-      <!-- Studio Fields -->
-      <template v-if="formType === 'Studio'">
-        <FormKit type="checkbox" name="services" label="What do you need?" :options="studioServices"
-          validation="required" />
+        <FormKit type="email" name="email" label="Email" validation="required|email" />
 
-        <FormKit v-if="(value?.services as any)?.includes('Other')" type="textarea" name="otherServiceDetails"
-          label="Please specify other services" validation="required" />
+        <!-- Studio Fields -->
+        <template v-if="formType === 'Studio'">
+          <FormKit type="checkbox" name="services" label="What do you need?" :options="studioServices"
+            validation="required" />
 
-        <FormKit type="tel" name="phone" label="Phone" validation="required" />
+          <FormKit v-if="(value?.services as any)?.includes('Other')" type="textarea" name="otherServiceDetails"
+            label="Please specify other services" validation="required" />
 
-        <FormKit type="date" name="date" label="Request Date" validation="required" suffix-icon-class="date-icon" />
+          <FormKit type="tel" name="phone" label="Phone" validation="required" />
 
-        <FormKit type="textarea" name="message" label="Message" />
-      </template>
+          <FormKit type="date" name="date" label="Request Date" validation="required" suffix-icon-class="date-icon" />
 
-      <!-- Booking Fields -->
-      <template v-if="formType === 'Booking'">
-        <FormKit type="text" name="venue" label="Venue" validation="required" />
+          <FormKit type="textarea" name="message" label="Message" />
+        </template>
 
-        <FormKit type="tel" name="phone" label="Phone" validation="required" />
+        <!-- Booking Fields -->
+        <template v-if="formType === 'Booking'">
+          <FormKit type="text" name="venue" label="Venue" validation="required" />
 
-        <FormKit type="date" name="date" label="Performance Date" validation="required" />
+          <FormKit type="tel" name="phone" label="Phone" validation="required" />
 
-        <FormKit type="textarea" name="message" label="Message" />
-      </template>
+          <FormKit type="date" name="date" label="Performance Date" validation="required" />
 
-      <!-- Something Else Fields -->
-      <template v-if="formType === 'Something Else'">
-        <FormKit type="tel" name="phone" />
+          <FormKit type="textarea" name="message" label="Message" />
+        </template>
 
-        <FormKit type="textarea" name="message" label="Message" />
-      </template>
+        <!-- Something Else Fields -->
+        <template v-if="formType === 'Something Else'">
+          <FormKit type="tel" name="phone" />
 
-      <!-- Newsletter Opt-in -->
-      <FormKit type="checkbox" name="newsletter" label="Subscribe to our newsletter for updates" />
-    </div>
-  </FormKit>
+          <FormKit type="textarea" name="message" label="Message" />
+        </template>
+
+        <!-- Newsletter Opt-in -->
+        <FormKit type="checkbox" name="newsletter" label="Subscribe to our newsletter for updates" />
+      </div>
+    </FormKit>
+  </div>
 </template>
 
 <script lang="ts">
@@ -85,7 +91,8 @@ export default defineComponent({
       submitStatus: {
         message: '',
         type: '' as 'success' | 'error' | ''
-      } as SubmitStatus
+      } as SubmitStatus,
+      isSubmitted: false
     }
   },
   methods: {
@@ -109,6 +116,7 @@ export default defineComponent({
           message: 'Thank you! Your message has been sent.',
           type: 'success'
         };
+        this.isSubmitted = true;
       } catch (error) {
         console.error('Submission error:', error);
         this.submitStatus = {
@@ -137,6 +145,14 @@ export default defineComponent({
   gap: 0.5em;
   justify-content: center;
   margin-bottom: 1em;
+}
+
+.confirmation-section {
+  text-align: center;
+  padding: 2em;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 0.5em;
 }
 
 /* You may want to customize FormKit's default styles */
